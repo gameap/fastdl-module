@@ -1,0 +1,30 @@
+{
+    "name": "gameap/fastdl",
+    "description": "FastDL accounts management",
+    "type": "laravel-module",
+    "authors": [
+        {
+            "name": "Nikita Kuznetsov",
+            "email": "nikita.hldm@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.0",
+        "knik/gameap-daemon-client": "^0.3"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "GameapModules\\FastDl\\Providers\\FastDlServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "GameapModules\\FastDl\\": ""
+        }
+    }
+},

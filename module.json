@@ -1,0 +1,16 @@
+{
+    "name": "FastDL",
+    "alias": "fastdl",
+    "description": "",
+    "keywords": ["fastdl"],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "GameapModules\\FastDl\\Providers\\FastDlServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": [],
+    "icon": "<i class=\"fas fa-tachometer-alt fa-5x m-1\"></i>",
+    "main-route": "admin/fastdl"
+}
