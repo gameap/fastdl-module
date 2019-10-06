@@ -1,5 +1,5 @@
 {
-    "name": "gameap/fastdl",
+    "name": "gameap/fastdl-module",
     "description": "FastDL accounts management",
     "type": "laravel-module",
     "authors": [
