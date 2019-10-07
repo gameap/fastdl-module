@@ -2,6 +2,7 @@
     "name": "gameap/fastdl-module",
     "description": "FastDL accounts management",
     "type": "laravel-module",
+    "license": "MIT",
     "authors": [
         {
             "name": "Nikita Kuznetsov",
