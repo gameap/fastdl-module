@@ -18,13 +18,12 @@
                 "GameapModules\\FastDl\\Providers\\FastDlServiceProvider"
             ],
             "aliases": {
-                
             }
         }
     },
     "autoload": {
         "psr-4": {
-            "GameapModules\\FastDl\\": ""
+            "GameapModules\\FastDl\\": "modules/FastDl"
         }
     }
 }
