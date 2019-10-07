@@ -1,6 +1,6 @@
 <?php
 
-namespace GameapModules\FastDl\Database\Seeders;
+namespace GameapModules\Fastdl\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;

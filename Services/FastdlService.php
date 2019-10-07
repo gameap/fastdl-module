@@ -1,11 +1,11 @@
 <?php
 
-namespace GameapModules\FastDl\Services;
+namespace GameapModules\Fastdl\Services;
 
 use Gameap\Models\GdaemonTask;
 use Gameap\Services\GdaemonCommandsService;
-use GameapModules\FastDl\Models\FastdlDs;
-use GameapModules\FastDl\Models\FastdlServer;
+use GameapModules\Fastdl\Models\FastdlDs;
+use GameapModules\Fastdl\Models\FastdlServer;
 use Knik\Gameap\GdaemonCommands;
 
 class FastdlService extends GdaemonCommandsService

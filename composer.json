@@ -16,7 +16,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "GameapModules\\FastDl\\Providers\\FastDlServiceProvider"
+                "GameapModules\\Fastdl\\Providers\\FastDlServiceProvider"
             ],
             "aliases": {
             }
@@ -24,7 +24,7 @@
     },
     "autoload": {
         "psr-4": {
-            "GameapModules\\FastDl\\": "modules/Fastdl"
+            "GameapModules\\Fastdl\\": "modules/Fastdl"
         }
     }
 }

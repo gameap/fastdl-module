@@ -1,10 +1,10 @@
 <?php
 
-namespace GameapModules\FastDl\Repository;
+namespace GameapModules\Fastdl\Repository;
 
 use Gameap\Models\DedicatedServer;
 use Gameap\Repositories\Repository;
-use GameapModules\FastDl\Models\FastdlDs;
+use GameapModules\Fastdl\Models\FastdlDs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 

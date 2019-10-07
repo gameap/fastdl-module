@@ -1,12 +1,12 @@
 <?php
 
-namespace GameapModules\FastDl\Http\Controllers;
+namespace GameapModules\Fastdl\Http\Controllers;
 
 use Gameap\Repositories\ServerRepository;
-use GameapModules\FastDl\Http\Requests\FastdlAccountRequest;
-use GameapModules\FastDl\Models\FastdlDs;
-use GameapModules\FastDl\Models\FastdlServer;
-use GameapModules\FastDl\Services\FastdlService;
+use GameapModules\Fastdl\Http\Requests\FastdlAccountRequest;
+use GameapModules\Fastdl\Models\FastdlDs;
+use GameapModules\Fastdl\Models\FastdlServer;
+use GameapModules\Fastdl\Services\FastdlService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Gameap\Http\Controllers\AuthController;

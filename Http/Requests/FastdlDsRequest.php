@@ -1,7 +1,7 @@
 <?php
 
 
-namespace GameapModules\FastDl\Http\Requests;
+namespace GameapModules\Fastdl\Http\Requests;
 
 use Gameap\Http\Requests\Request;
 

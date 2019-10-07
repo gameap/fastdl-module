@@ -1,6 +1,6 @@
 <?php
 
-namespace GameapModules\FastDl\Providers;
+namespace GameapModules\Fastdl\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

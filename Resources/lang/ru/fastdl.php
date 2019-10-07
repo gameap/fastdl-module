@@ -32,6 +32,5 @@ return [
     'destroy_account_success_msg'   => 'FastDL аккаунт успешно удалён',
     'destroy_account_fail_msg'      => 'Ошибка удаления FastDL аккаунта',
 
-    'update_ds_settings_success_msg' => 'FastDL настройки выделенного сервера успешно сохранены. Подождите несколько
-        минут чтобы они вступили в силу',
+    'update_ds_settings_success_msg' => 'FastDL настройки выделенного сервера успешно сохранены. Подождите несколько минут чтобы они вступили в силу',
 ];

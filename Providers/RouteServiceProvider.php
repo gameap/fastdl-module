@@ -1,6 +1,6 @@
 <?php
 
-namespace GameapModules\FastDl\Providers;
+namespace GameapModules\Fastdl\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -12,7 +12,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $moduleNamespace = 'GameapModules\FastDl\Http\Controllers';
+    protected $moduleNamespace = 'GameapModules\Fastdl\Http\Controllers';
 
     /**
      * Called before routes are registered.

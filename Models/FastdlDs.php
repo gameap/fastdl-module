@@ -1,13 +1,13 @@
 <?php
 
-namespace GameapModules\FastDl\Models;
+namespace GameapModules\Fastdl\Models;
 
 use Gameap\Models\DedicatedServer;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class FastdlDs
- * @package GameapModules\FastDl\Models
+ * @package GameapModules\Fastdl\Models
  *
  * @property integer $ds_id
  * @property boolean $installed
