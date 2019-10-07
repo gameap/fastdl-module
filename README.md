@@ -1,10 +1,10 @@
-Manage FTP accounts in the GameAP
+Manage FastDL in the GameAP
 
 ## Installation
 
 ### Via Composer
 
-Install ftp module:
+Install fastdl module:
 ```bash
 composer require --update-no-dev gameap/fastdl-module
 ```
