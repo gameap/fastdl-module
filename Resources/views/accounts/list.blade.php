@@ -1,4 +1,4 @@
-@php($title = "FastDL Accounts")
+@php($title = __('fastdl::fastdl.fastdl_accounts_title'))
 
 @extends('layouts.main')
 
@@ -6,7 +6,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/">GameAP</a></li>
         <li class="breadcrumb-item"><a href="{{ route('admin.fastdl') }}">FastDL</a></li>
-        <li class="breadcrumb-item active">Accounts</li>
+        <li class="breadcrumb-item active">{{ __('fastdl::fastdl.accounts') }}</li>
     </ol>
 @endsection
 
@@ -19,7 +19,7 @@
 
     @include('components.grid', [
         'modelsList' => $fastdlDs->accounts,
-        'labels' => [ 'Server Name', 'FastDL Address', 'Last Sync'],
+        'labels' => [ __('fastdl::fastdl.server_name'), __('fastdl::fastdl.address'), __('fastdl::fastdl.last_sync')],
         'attributes' => [
             'server.name',
             'address',

@@ -24,7 +24,7 @@
     },
     "autoload": {
         "psr-4": {
-            "GameapModules\\FastDl\\": "modules/FastDl"
+            "GameapModules\\FastDl\\": "modules/Fastdl"
         }
     }
 }

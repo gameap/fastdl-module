@@ -1,4 +1,4 @@
-@php($title = "FastDL Manager")
+@php($title = __('fastdl::fastdl.fastdl_manager_title'))
 
 @extends('layouts.main')
 
@@ -13,7 +13,7 @@
 
     @include('components.grid', [
         'modelsList' => $fastdlDedicatedServers,
-        'labels' => [ 'Name', 'Installed'],
+        'labels' => [ __('fastdl::fastdl.ds_name'), __('fastdl::fastdl.installed')],
         'attributes' => [
             'name',
             ['lambda', function($fastdlDsModel) {

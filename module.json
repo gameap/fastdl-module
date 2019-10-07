@@ -1,7 +1,7 @@
 {
     "name": "FastDL",
     "alias": "fastdl",
-    "description": "",
+    "description": "FastDL management",
     "keywords": ["fastdl"],
     "active": 1,
     "order": 0,

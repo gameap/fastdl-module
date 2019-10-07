@@ -92,10 +92,10 @@ class FastdlController extends AuthController
             $fastdlDs = FastdlDs::create(array_merge(['ds_id' => $id, 'installed' => true], $attributes));
             $gdaemonTaskId = $this->fastdlService->install($fastdlDs);
         } else {
-            $fastdlDs->update($request->all());
+            $fastdlDs->update($attributes);
         }
 
         return redirect()->route('admin.fastdl')
-            ->with('success', __('main.success'));
+            ->with('success', __('fastdl::fastdl.update_ds_settings_success_msg'));
     }
 }

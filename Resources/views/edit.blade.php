@@ -1,4 +1,4 @@
-@php($title = "FastDL Dedicated Server Settings")
+@php($title = __('fastdl::fastdl.fastdl_ds_settings_title'))
 
 @extends('layouts.main')
 
@@ -6,7 +6,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/">GameAP</a></li>
         <li class="breadcrumb-item"><a href="{{ route('admin.fastdl') }}">FastDL</a></li>
-        <li class="breadcrumb-item active">Dedicated Server Settings </li>
+        <li class="breadcrumb-item active">{{ __('fastdl::fastdl.ds_settings') }}</li>
     </ol>
 @endsection
 
@@ -19,7 +19,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="form-group">
-                            {{ Form::label('method', 'Method', ['class' => 'control-label']) }}
+                            {{ Form::label('method', __('fastdl::fastdl.method'), ['class' => 'control-label']) }}
 
                             {{ Form::select(
                                 'method',
@@ -37,7 +37,7 @@
                         {{-- {{ Form::bsText('host', $dedicatedServer->ip[0] ?? '0.0.0.0') }} --}}
 
                         <div class="form-group">
-                            {{ Form::label('host', 'Host', ['class' => 'control-label']) }}
+                            {{ Form::label('host', __('fastdl::fastdl.host'), ['class' => 'control-label']) }}
 
                             {{ Form::select(
                                 'host',
@@ -51,7 +51,7 @@
 
                         <div class="form-check">
                             {{ Form::checkbox('autoindex', 'on', true, ['id' => 'enabled', 'class' => 'form-check-input']) }}
-                            {{ Form::label('autoindex', 'Autoindex', ['class' => 'form-check-label']) }}
+                            {{ Form::label('autoindex', __('fastdl::fastdl.autoindex'), ['class' => 'form-check-label']) }}
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                         <input-many-list
                                 name="options"
                                 :initial-items="[]"
-                                :labels="['Option Name', 'Value']"
+                                :labels="['{{ __('fastdl::fastdl.option_name') }}', '{{ __('fastdl::fastdl.option_value') }}']"
                                 :keys="['option', 'value']"
                                 :input-types="['text', 'text']">
                         </input-many-list>
@@ -76,7 +76,7 @@
 
         <div class="col-md-12 mt-4">
             <div class="form-group">
-                {{ Form::submit(__('main.create'), ['class' => 'btn btn-success']) }}
+                {{ Form::submit(__('main.save'), ['class' => 'btn btn-success']) }}
             </div>
         </div>
     {!! Form::close() !!}

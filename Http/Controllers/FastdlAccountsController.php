@@ -1,6 +1,6 @@
 <?php
 
-namespace GameapModules\FastDL\Http\Controllers;
+namespace GameapModules\FastDl\Http\Controllers;
 
 use Gameap\Repositories\ServerRepository;
 use GameapModules\FastDl\Http\Requests\FastdlAccountRequest;
@@ -9,9 +9,9 @@ use GameapModules\FastDl\Models\FastdlServer;
 use GameapModules\FastDl\Services\FastdlService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use Gameap\Http\Controllers\AuthController;
 
-class FastdlAccountsController extends Controller
+class FastdlAccountsController extends AuthController
 {
     const EXEC_SUCCESS_CODE = 0;
 
@@ -36,6 +36,8 @@ class FastdlAccountsController extends Controller
      */
     public function __construct(ServerRepository $serverRepository, FastdlService $fastdlService)
     {
+        parent::__construct();
+
         $this->serverRepository = $serverRepository;
         $this->fastdlService = $fastdlService;
     }
@@ -83,22 +85,33 @@ class FastdlAccountsController extends Controller
         $attributes = $request->all();
 
         $attributes['ds_id'] = $fastdlDs->ds_id;
-        $attributes['address'] = $fastdlDs->host . ($fastdlDs->port != 80 ? ':' . $fastdlDs->port : '');
+        $attributes['address'] = 'http://' . $fastdlDs->host . ($fastdlDs->port != 80 ? ':' . $fastdlDs->port : '');
         $attributes['remote'] = false;
 
         $fastdlServer = new FastdlServer($attributes);
 
-        $result = $this->fastdlService->addAccount($fastdlServer, $exitCode);
-
-        $resultExpl = explode(':', $result);
+        $result = trim($this->fastdlService->addAccount($fastdlServer, $exitCode));
 
         if ($exitCode === self::EXEC_SUCCESS_CODE) {
+            $lastLine = trim(substr($result, strripos($result, "\n")));
+
+            if (preg_match("/^[A-Za-z\s]*:\s*(http?:\/\/[a-z0-9-_.:]*[\/a-z0-9_-]*)$/",
+                $lastLine,
+                $m)
+            ) {
+                $fastdlServer->address = $m[1];
+            }
+
             $fastdlServer->save();
         }
 
         return ($exitCode === self::EXEC_SUCCESS_CODE)
-            ? redirect()->route('admin.fastdl.accounts', $fastdlDs->ds_id)->with('success', 'Success')
-            : redirect()->route('admin.fastdl.accounts', $fastdlDs->ds_id)->with('error', 'Fail');
+            ? redirect()
+                ->route('admin.fastdl.accounts', $fastdlDs->ds_id)
+                ->with('success', __('fastdl::fastdl.create_account_success_msg'))
+            : redirect()
+                ->route('admin.fastdl.accounts', $fastdlDs->ds_id)
+                ->with('error', __('fastdl::fastdl.create_account_fail_msg'));
     }
 
     /**
@@ -127,7 +140,11 @@ class FastdlAccountsController extends Controller
         }
 
         return ($exitCode === self::EXEC_SUCCESS_CODE)
-            ? redirect()->route('admin.fastdl.accounts', $fastdlServer->ds_id)->with('success', 'Success')
-            : redirect()->route('admin.fastdl.accounts', $fastdlServer->ds_id)->with('error', 'Fail');
+            ? redirect()
+                ->route('admin.fastdl.accounts', $fastdlServer->ds_id)
+                ->with('success', __('fastdl::fastdl.destroy_account_success_msg'))
+            : redirect()
+                ->route('admin.fastdl.accounts', $fastdlServer->ds_id)
+                ->with('error', __('fastdl::fastdl.destroy_account_fail_msg'));
     }
 }

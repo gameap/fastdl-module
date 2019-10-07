@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class FastdlDs
- * @package GameapModules\FastDL\Models
+ * @package GameapModules\FastDl\Models
  *
  * @property integer $ds_id
  * @property boolean $installed
