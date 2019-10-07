@@ -13,7 +13,11 @@
 @section('content')
     <div class="mb-2">
         <a class='btn btn-success' href="{{ route('admin.fastdl.accounts.create', $fastdlDs->ds_id) }}">
-            <span class="fa fa-plus-square"></span>&nbsp;{{ __('main.create') }}
+            <i class="fa fa-plus-square"></i>&nbsp;{{ __('main.create') }}
+        </a>
+
+        <a class='btn btn-warning' href="{{ route('admin.fastdl.accounts.last_error', $fastdlDs->ds_id) }}">
+            <i class="fas fa-exclamation-triangle"></i>&nbsp;{{ __('fastdl::fastdl.last_error') }}
         </a>
     </div>
 

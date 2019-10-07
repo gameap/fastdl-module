@@ -81,7 +81,7 @@ class FastdlService extends GdaemonCommandsService
     {
         $fastdlDs = $fastdlServer->fastdlDs;
 
-        $options = $fastdlDs->options;
+        $options = collect($fastdlDs->options)->pluck('value', 'option');
         $options['server-path'] = $fastdlServer->server->full_path . '/' . $fastdlServer->server->game->start_code;
         $options['method'] = $fastdlDs->method;
 

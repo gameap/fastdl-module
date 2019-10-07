@@ -4,6 +4,7 @@ return [
     'fastdl_manager_title'          => 'FastDL Менеджер',
     'fastdl_ds_settings_title'      => 'Настройки FastDL для выделеннного сервера',
     'fastdl_accounts_title'         => 'FastDL Аккаунты',
+    'fastdl_last_error_title'       => 'FastDL Последняя ошибка',
 
     'ds_name'                       => 'Имя выделенного сервера',
     'accounts'                      => 'Аккаунты',
@@ -23,6 +24,9 @@ return [
     'server_name'                   => 'Имя сервера',
     'address'                       => 'FastDL адрес',
     'last_sync'                     => 'Последняя синхронизация',
+
+    'last_error'                    => 'Последняя ошибка',
+    'no_last_errors'                => 'Ошибок нет',
 
     'no_servers_for_this_ds'        => 'Для всех возможны игровых серверов на этой ноде имеются FastDL',
 

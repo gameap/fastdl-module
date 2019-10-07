@@ -4,6 +4,7 @@ return [
     'fastdl_manager_title'          => 'FastDL Manager',
     'fastdl_ds_settings_title'      => 'FastDL Dedicated Server Settings',
     'fastdl_accounts_title'         => 'FastDL Accounts',
+    'fastdl_last_error_title'       => 'FastDL Last Error',
 
     'ds_name'                       => 'Dedicated Server Name',
     'accounts'                      => 'Accounts',
@@ -23,6 +24,9 @@ return [
     'server_name'                   => 'Server Name',
     'address'                       => 'FastDL address',
     'last_sync'                     => 'Last Sync',
+
+    'last_error'                    => 'Last Error',
+    'no_last_errors'                => 'No Errors',
 
     'no_servers_for_this_ds'        => 'For all possible game servers, this node has FastDL',
 

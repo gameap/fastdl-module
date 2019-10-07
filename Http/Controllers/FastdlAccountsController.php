@@ -10,10 +10,14 @@ use GameapModules\Fastdl\Services\FastdlService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Gameap\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Cache;
 
 class FastdlAccountsController extends AuthController
 {
     const EXEC_SUCCESS_CODE = 0;
+
+    const CACHE_TTL_MINUTES = 5;
+    const CACHE_LAST_ERROR_KEY = 'lastFastDlError';
 
     const AVAILABLE_ENGINES = [
         'goldsource',
@@ -103,6 +107,8 @@ class FastdlAccountsController extends AuthController
             }
 
             $fastdlServer->save();
+        } else {
+            Cache::put(self::CACHE_LAST_ERROR_KEY, $result, self::CACHE_TTL_MINUTES);
         }
 
         return ($exitCode === self::EXEC_SUCCESS_CODE)
@@ -137,6 +143,8 @@ class FastdlAccountsController extends AuthController
 
         if ($exitCode === self::EXEC_SUCCESS_CODE) {
             $fastdlServer->delete();
+        } else {
+            Cache::put(self::CACHE_LAST_ERROR_KEY, $result, self::CACHE_TTL_MINUTES);
         }
 
         return ($exitCode === self::EXEC_SUCCESS_CODE)
@@ -146,5 +154,15 @@ class FastdlAccountsController extends AuthController
             : redirect()
                 ->route('admin.fastdl.accounts', $fastdlServer->ds_id)
                 ->with('error', __('fastdl::fastdl.destroy_account_fail_msg'));
+    }
+
+    /**
+     * @param FastdlDs $fastdlDs
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function lastError(FastdlDs $fastdlDs)
+    {
+        $lastError = Cache::get(self::CACHE_LAST_ERROR_KEY);
+        return view('fastdl::accounts.last_error', compact('lastError', 'fastdlDs'));
     }
 }

@@ -18,6 +18,7 @@ Route::group(['prefix' => 'admin', 'name' => 'admin.fastdl', 'middleware' => 'is
     Route::name('admin.fastdl.update')->put('fastdl/{id}', 'FastdlController@update');
 
     Route::name('admin.fastdl.accounts')->get('fastdl/{fastdlDs}/accounts', 'FastdlAccountsController@list');
+    Route::name('admin.fastdl.accounts.last_error')->get('fastdl/{fastdlDs}/accounts/last_error', 'FastdlAccountsController@lastError');
     Route::name('admin.fastdl.accounts.create')->get('fastdl/{fastdlDs}/accounts/create', 'FastdlAccountsController@create');
     Route::name('admin.fastdl.accounts.store')->post('fastdl/{fastdlDs}/accounts/create', 'FastdlAccountsController@store');
 
