@@ -12,6 +12,16 @@
 
 @section('content')
     <div class="mb-2">
+        {{ Form::open(['method' => 'PATCH', 'url' => route('admin.fastdl.accounts.sync',  $fastdlDs->ds_id), 'style'=>'display:inline']) }}
+            {{ Form::button( '<i class="fas fa-sync"></i>&nbsp;' . __('fastdl::fastdl.sync'),
+            [
+                'class' => 'btn btn-dark',
+                'v-on:click' => 'confirmAction($event, \'' . __('fastdl::fastdl.d_run_sync') . '\')',
+                'type' => 'submit'
+            ]
+            ) }}
+        {{ Form::close() }}
+
         <a class='btn btn-success' href="{{ route('admin.fastdl.accounts.create', $fastdlDs->ds_id) }}">
             <i class="fa fa-plus-square"></i>&nbsp;{{ __('main.create') }}
         </a>

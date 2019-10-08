@@ -15,7 +15,8 @@ class FastdlService extends GdaemonCommandsService
 
     const CREATE_ACCOUNT_CMD = './fastdl.sh add';
     const REMOVE_ACCOUNT_CMD = './fastdl.sh remove';
-    const INSTALL_REQUIREMENTS = './fastdl.sh install';
+    const INSTALL_REQUIREMENTS_CMD = './fastdl.sh install';
+    const SYNC_CMD = './fastdl.sh sync';
 
     /**
      * @var GdaemonCommands
@@ -58,7 +59,7 @@ class FastdlService extends GdaemonCommandsService
     {
         $this->configureGdaemon($fastdlDs->ds_id);
 
-        $installRequirementsCmd = $this->generateInstallCommand(self::INSTALL_REQUIREMENTS, $fastdlDs);
+        $installRequirementsCmd = $this->generateInstallCommand(self::INSTALL_REQUIREMENTS_CMD, $fastdlDs);
 
         $executeCommand = 'curl -O ' . self::FASTDL_SCRIPT_DOWNLOAD_LINK
             . ' && ' . 'chmod +x ' . self::FASTDL_SCRIPT_NAME
@@ -73,6 +74,24 @@ class FastdlService extends GdaemonCommandsService
     }
 
     /**
+     * @param FastdlDs $fastdlDs
+     * @return integer
+     */
+    public function startSync(FastdlDs $fastdlDs)
+    {
+        $this->configureGdaemon($fastdlDs->ds_id);
+
+        $syncCmd = $this->generateServiceCommand(self::SYNC_CMD, $fastdlDs);
+
+        return GdaemonTask::create([
+            'run_aft_id' => 0,
+            'dedicated_server_id' => $fastdlDs->ds_id,
+            'task' => GdaemonTask::TASK_CMD_EXEC,
+            'cmd' => $syncCmd,
+        ])->id;
+    }
+
+    /**
      * @param string $command
      * @param FastdlServer $fastdlServer
      * @return string
@@ -83,6 +102,24 @@ class FastdlService extends GdaemonCommandsService
 
         $options = collect($fastdlDs->options)->pluck('value', 'option');
         $options['server-path'] = $fastdlServer->server->full_path . '/' . $fastdlServer->server->game->start_code;
+        $options['method'] = $fastdlDs->method;
+
+        $cmdOptions = '';
+        foreach ($options as $optionName => $optionValue) {
+            $cmdOptions .= " --{$optionName}=\"{$optionValue}\"";
+        }
+
+        return $command . $cmdOptions;
+    }
+
+    /**
+     * @param string $command
+     * @param FastdlDs $fastdlDs
+     * @return string
+     */
+    private function generateServiceCommand(string $command, FastdlDs $fastdlDs)
+    {
+        $options = collect($fastdlDs->options)->pluck('value', 'option');
         $options['method'] = $fastdlDs->method;
 
         $cmdOptions = '';

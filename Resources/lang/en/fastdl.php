@@ -37,4 +37,8 @@ return [
     'destroy_account_fail_msg'      => 'Error deleting FasDL account',
 
     'update_ds_settings_success_msg' => 'FastDL dedicated server settings successfully saved. Wait a few minutes for them to take effect',
+
+    'sync'                          => 'Synchronization',
+    'd_run_sync'                    => 'Do you want to start syncing?',
+    'sync_started_msg'              => 'Synchronization job added to queue',
 ];

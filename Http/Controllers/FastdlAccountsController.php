@@ -165,4 +165,16 @@ class FastdlAccountsController extends AuthController
         $lastError = Cache::get(self::CACHE_LAST_ERROR_KEY);
         return view('fastdl::accounts.last_error', compact('lastError', 'fastdlDs'));
     }
+
+    /**
+     * @param FastdlDs $fastdlDs
+     */
+    public function sync(FastdlDs $fastdlDs)
+    {
+        $this->fastdlService->startSync($fastdlDs);
+
+        return redirect()
+            ->route('admin.fastdl.accounts', $fastdlDs->ds_id)
+            ->with('success', __('fastdl::fastdl.sync_started_msg'));
+    }
 }
