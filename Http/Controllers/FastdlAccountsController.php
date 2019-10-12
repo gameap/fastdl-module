@@ -16,8 +16,8 @@ class FastdlAccountsController extends AuthController
 {
     const EXEC_SUCCESS_CODE = 0;
 
-    const CACHE_TTL_MINUTES = 5;
-    const CACHE_LAST_ERROR_KEY = 'lastFastDlError';
+    const CACHE_TTL_SECONDS = 300;
+    const CACHE_LAST_ERROR_KEY = 'fastdl:last_error';
 
     const AVAILABLE_ENGINES = [
         'goldsource',
@@ -108,7 +108,7 @@ class FastdlAccountsController extends AuthController
 
             $fastdlServer->save();
         } else {
-            Cache::put(self::CACHE_LAST_ERROR_KEY, $result, self::CACHE_TTL_MINUTES);
+            Cache::put(self::CACHE_LAST_ERROR_KEY, $result, self::CACHE_TTL_SECONDS);
         }
 
         return ($exitCode === self::EXEC_SUCCESS_CODE)
@@ -144,7 +144,7 @@ class FastdlAccountsController extends AuthController
         if ($exitCode === self::EXEC_SUCCESS_CODE) {
             $fastdlServer->delete();
         } else {
-            Cache::put(self::CACHE_LAST_ERROR_KEY, $result, self::CACHE_TTL_MINUTES);
+            Cache::put(self::CACHE_LAST_ERROR_KEY, $result, self::CACHE_TTL_SECONDS);
         }
 
         return ($exitCode === self::EXEC_SUCCESS_CODE)
