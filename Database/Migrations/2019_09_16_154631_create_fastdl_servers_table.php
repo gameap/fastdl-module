@@ -22,7 +22,7 @@ class CreateFastdlServersTable extends Migration
             $table->timestamp('last_sync');
             $table->timestamps();
 
-            $table->unique('ds_id', 'server_id');
+            $table->unique('server_id');
         });
     }
 
