@@ -13,6 +13,7 @@ return [
     'method'                        => 'Method',
     'host'                          => 'Host',
     'autoindex'                     => 'Autoindex',
+    'autoinstall'                   => 'Autoinstall and configure',
 
     'ds_settings'                   => 'Dedicated Server Settings',
 

@@ -49,10 +49,17 @@
 
                         {{ Form::bsText('port', $fastdlDs->port ?? '80') }}
 
-                        <div class="form-check">
+                        <div class="form-check mb-2">
                             {{ Form::checkbox('autoindex', 'on', true, ['id' => 'enabled', 'class' => 'form-check-input']) }}
                             {{ Form::label('autoindex', __('fastdl::fastdl.autoindex'), ['class' => 'form-check-label']) }}
                         </div>
+
+                        @if (empty($fastdlDs))
+                            <div class="form-check mb-2">
+                                {{ Form::checkbox('autoinstall', 'on', true, ['id' => 'enabled', 'class' => 'form-check-input']) }}
+                                {{ Form::label('autoinstall', __('fastdl::fastdl.autoinstall'), ['class' => 'form-check-label']) }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

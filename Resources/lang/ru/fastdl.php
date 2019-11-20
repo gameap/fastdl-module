@@ -13,6 +13,7 @@ return [
     'method'                        => 'Метод',
     'host'                          => 'Хост',
     'autoindex'                     => 'Автоиндекс (autoindex)',
+    'autoinstall'                   => 'Автоустановка и настройка',
 
     'ds_settings'                   => 'Настройки выделенного сервера',
 

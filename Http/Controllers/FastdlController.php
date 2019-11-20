@@ -7,10 +7,10 @@ use GameapModules\Fastdl\Http\Requests\FastdlDsRequest;
 use GameapModules\Fastdl\Models\FastdlDs;
 use GameapModules\Fastdl\Repository\FastdlDsRepository;
 use GameapModules\Fastdl\Services\FastdlService;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Gameap\Http\Controllers\AuthController;
-use Gameap\Repositories\DedicatedServersRepository;
+use Illuminate\View\View;
 
 class FastdlController extends AuthController
 {
@@ -26,8 +26,8 @@ class FastdlController extends AuthController
 
     /**
      * FastDlController constructor.
-     * @param DedicatedServersRepository $dedicatedServersRepository
      * @param FastdlDsRepository $fastdlDsRepository
+     * @param FastdlService $fastdlService
      */
     public function __construct(FastdlDsRepository $fastdlDsRepository, FastdlService $fastdlService)
     {
@@ -39,7 +39,7 @@ class FastdlController extends AuthController
 
     /**
      * Display a listing of the resource.
-     * @return Response
+     * @return Factory|View
      */
     public function index()
     {
@@ -50,7 +50,7 @@ class FastdlController extends AuthController
     /**
      * Show the specified resource.
      * @param FastdlDs $fastdlDs
-     * @return Response
+     * @return Factory|View|RedirectResponse
      */
     public function show(FastdlDs $fastdlDs)
     {
@@ -64,7 +64,7 @@ class FastdlController extends AuthController
     /**
      * Show the form for editing the specified resource.
      * @param int $id
-     * @return Response
+     * @return Factory|View
      */
     public function edit(int $id)
     {
@@ -77,7 +77,7 @@ class FastdlController extends AuthController
      * Save the specified resource in storage.
      * @param FastdlDsRequest $request
      * @param int $id
-     * @return Response
+     * @return RedirectResponse
      */
     public function save(FastdlDsRequest $request, int $id)
     {
@@ -86,11 +86,17 @@ class FastdlController extends AuthController
         $dedicatedServer = DedicatedServer::findOrFail($id);
         $fastdlDs = $this->fastdlDsRepository->get($dedicatedServer->id);
 
+        // Checkboxes
         $attributes['autoindex'] = isset($attributes['autoindex']);
+        $attributes['autoinstall'] = isset($attributes['autoinstall']);
 
         if ($fastdlDs === null) {
             $fastdlDs = FastdlDs::create(array_merge(['ds_id' => $id, 'installed' => true], $attributes));
-            $gdaemonTaskId = $this->fastdlService->install($fastdlDs);
+
+            if ($attributes['autoinstall']) {
+                $gdaemonTaskId = $this->fastdlService->install($fastdlDs);
+            }
+
         } else {
             $fastdlDs->update($attributes);
         }
