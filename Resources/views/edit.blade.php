@@ -71,7 +71,7 @@
                     <div class="card-body">
                         <input-many-list
                                 name="options"
-                                :initial-items="[]"
+                                :initial-items="{{ empty($fastdlDs->method) ? '[]' : json_encode($fastdlDs->options) }}"
                                 :labels="['{{ __('fastdl::fastdl.option_name') }}', '{{ __('fastdl::fastdl.option_value') }}']"
                                 :keys="['option', 'value']"
                                 :input-types="['text', 'text']">
