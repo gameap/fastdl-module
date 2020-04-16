@@ -7,10 +7,12 @@ use GameapModules\Fastdl\Http\Requests\FastdlAccountRequest;
 use GameapModules\Fastdl\Models\FastdlDs;
 use GameapModules\Fastdl\Models\FastdlServer;
 use GameapModules\Fastdl\Services\FastdlService;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Gameap\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\View\View;
 
 class FastdlAccountsController extends AuthController
 {
@@ -48,7 +50,7 @@ class FastdlAccountsController extends AuthController
 
     /**
      * Display a listing of the resource.
-     * @return Response
+     * @return Factory|View|RedirectResponse
      */
     public function list(int $id)
     {
@@ -63,7 +65,7 @@ class FastdlAccountsController extends AuthController
 
     /**
      * Show the form for creating a new resource.
-     * @return Response
+     * @return Factory|View
      */
     public function create(FastdlDs $fastdlDs)
     {
@@ -82,7 +84,7 @@ class FastdlAccountsController extends AuthController
     /**
      * Store a newly created resource in storage.
      * @param Request $request
-     * @return Response
+     * @return RedirectResponse
      */
     public function store(FastdlAccountRequest $request, FastdlDs $fastdlDs)
     {
@@ -123,7 +125,7 @@ class FastdlAccountsController extends AuthController
     /**
      * Show the specified resource.
      * @param FastdlServer $fastdlServer
-     * @return Response
+     * @return Factory|View
      */
     public function show(FastdlServer $fastdlServer)
     {
@@ -134,7 +136,7 @@ class FastdlAccountsController extends AuthController
      * Remove the specified resource from storage.
      *
      * @param FastdlServer $fastdlServer
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      * @throws \Exception
      */
     public function destroy(FastdlServer $fastdlServer)
@@ -158,7 +160,7 @@ class FastdlAccountsController extends AuthController
 
     /**
      * @param FastdlDs $fastdlDs
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function lastError(FastdlDs $fastdlDs)
     {
@@ -168,6 +170,7 @@ class FastdlAccountsController extends AuthController
 
     /**
      * @param FastdlDs $fastdlDs
+     * @return RedirectResponse
      */
     public function sync(FastdlDs $fastdlDs)
     {
