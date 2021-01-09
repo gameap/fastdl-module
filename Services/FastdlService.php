@@ -18,17 +18,10 @@ class FastdlService extends GdaemonCommandsService
     const INSTALL_REQUIREMENTS_CMD = './fastdl.sh install';
     const SYNC_CMD = './fastdl.sh sync';
 
-    /**
-     * @var GdaemonCommands
-     */
+    /** @var GdaemonCommands */
     protected $gdaemonCommands;
 
-    /**
-     * @param FastdlServer $fastdlServer
-     * @param integer $exitCode
-     * @return string
-     */
-    public function addAccount(FastdlServer $fastdlServer, &$exitCode = null)
+    public function addAccount(FastdlServer $fastdlServer, ?int &$exitCode = null): string
     {
         $this->configureGdaemon($fastdlServer->ds_id);
 
@@ -37,12 +30,7 @@ class FastdlService extends GdaemonCommandsService
         return $this->gdaemonCommands->exec($command, $exitCode);
     }
 
-    /**
-     * @param FastdlServer $fastdlServer
-     * @param integer $exitCode
-     * @return string
-     */
-    public function deleteAccount(FastdlServer $fastdlServer, &$exitCode = null)
+    public function deleteAccount(FastdlServer $fastdlServer, ?int &$exitCode = null): string
     {
         $this->configureGdaemon($fastdlServer->ds_id);
 
@@ -51,15 +39,11 @@ class FastdlService extends GdaemonCommandsService
         return $this->gdaemonCommands->exec($command, $exitCode);
     }
 
-    /**
-     * @param FastdlDs $fastdlDs
-     * @return integer
-     */
-    public function install(FastdlDs $fastdlDs)
+    public function install(FastdlDs $fastdlDs): int
     {
         $this->configureGdaemon($fastdlDs->ds_id);
 
-        $installRequirementsCmd = $this->generateInstallCommand(self::INSTALL_REQUIREMENTS_CMD, $fastdlDs);
+        $installRequirementsCmd = $this->addCommandOptions(self::INSTALL_REQUIREMENTS_CMD, $fastdlDs);
 
         $executeCommand = 'curl -O ' . self::FASTDL_SCRIPT_DOWNLOAD_LINK
             . ' && ' . 'chmod +x ' . self::FASTDL_SCRIPT_NAME
@@ -73,11 +57,7 @@ class FastdlService extends GdaemonCommandsService
         ])->id;
     }
 
-    /**
-     * @param FastdlDs $fastdlDs
-     * @return integer
-     */
-    public function startSync(FastdlDs $fastdlDs)
+    public function startSync(FastdlDs $fastdlDs): int
     {
         $this->configureGdaemon($fastdlDs->ds_id);
 
@@ -91,12 +71,7 @@ class FastdlService extends GdaemonCommandsService
         ])->id;
     }
 
-    /**
-     * @param string $command
-     * @param FastdlServer $fastdlServer
-     * @return string
-     */
-    private function generateCommand(string $command, FastdlServer $fastdlServer)
+    private function generateCommand(string $command, FastdlServer $fastdlServer): string
     {
         $fastdlDs = $fastdlServer->fastdlDs;
 
@@ -112,12 +87,7 @@ class FastdlService extends GdaemonCommandsService
         return $command . $cmdOptions;
     }
 
-    /**
-     * @param string $command
-     * @param FastdlDs $fastdlDs
-     * @return string
-     */
-    private function generateServiceCommand(string $command, FastdlDs $fastdlDs)
+    private function generateServiceCommand(string $command, FastdlDs $fastdlDs): string
     {
         $options = collect($fastdlDs->options)->pluck('value', 'option');
         $options['method'] = $fastdlDs->method;
@@ -130,12 +100,7 @@ class FastdlService extends GdaemonCommandsService
         return $command . $cmdOptions;
     }
 
-    /**
-     * @param string $command
-     * @param FastdlDs $fastdlDs
-     * @return string
-     */
-    private function generateInstallCommand(string $command, FastdlDs $fastdlDs)
+    private function addCommandOptions(string $command, FastdlDs $fastdlDs): string
     {
         $options = [
             'host' => $fastdlDs->host,

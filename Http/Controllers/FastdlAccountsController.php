@@ -16,7 +16,9 @@ use Illuminate\View\View;
 
 class FastdlAccountsController extends AuthController
 {
-    const EXEC_SUCCESS_CODE = 0;
+    const EXEC_SUCCESS_CODE                = 0;
+    const EXEC_ACCOUNT_ALREADY_EXISTS_CODE = 10;
+    const EXEC_ACCOUNT_DOESNOT_EXISTS_CODE = 11;
 
     const CACHE_TTL_SECONDS = 300;
     const CACHE_LAST_ERROR_KEY = 'fastdl:last_error';
@@ -54,13 +56,17 @@ class FastdlAccountsController extends AuthController
      */
     public function list(int $id)
     {
+        /** @var FastdlDs $fastdlDs */
         $fastdlDs = FastdlDs::find($id);
 
         if (!$fastdlDs) {
             return redirect()->route('admin.fastdl.edit', $id);
         }
 
-        return view('fastdl::accounts.list', compact('fastdlDs'));
+        return view('fastdl::accounts.list', [
+            'accounts' => $fastdlDs->accounts,
+            'dsId'    => $fastdlDs->ds_id,
+        ]);
     }
 
     /**
@@ -97,8 +103,10 @@ class FastdlAccountsController extends AuthController
         $fastdlServer = new FastdlServer($attributes);
 
         $result = trim($this->fastdlService->addAccount($fastdlServer, $exitCode));
+        $isResultSuccess = $exitCode === self::EXEC_SUCCESS_CODE
+            || $exitCode === self::EXEC_ACCOUNT_ALREADY_EXISTS_CODE;
 
-        if ($exitCode === self::EXEC_SUCCESS_CODE) {
+        if ($isResultSuccess) {
             $lastLine = trim(substr($result, strripos($result, "\n")));
 
             if (preg_match("/^[A-Za-z\s]*:\s*(http?:\/\/[a-z0-9-_.:]*[\/a-z0-9_-]*)$/",
@@ -113,7 +121,7 @@ class FastdlAccountsController extends AuthController
             Cache::put(self::CACHE_LAST_ERROR_KEY, $result, self::CACHE_TTL_SECONDS);
         }
 
-        return ($exitCode === self::EXEC_SUCCESS_CODE)
+        return ($isResultSuccess)
             ? redirect()
                 ->route('admin.fastdl.accounts', $fastdlDs->ds_id)
                 ->with('success', __('fastdl::fastdl.create_account_success_msg'))
@@ -142,14 +150,16 @@ class FastdlAccountsController extends AuthController
     public function destroy(FastdlServer $fastdlServer)
     {
         $result = $this->fastdlService->deleteAccount($fastdlServer, $exitCode);
+        $isResultSuccess = $exitCode === self::EXEC_SUCCESS_CODE
+            || $exitCode === self::EXEC_ACCOUNT_DOESNOT_EXISTS_CODE;
 
-        if ($exitCode === self::EXEC_SUCCESS_CODE) {
+        if ($isResultSuccess) {
             $fastdlServer->delete();
         } else {
             Cache::put(self::CACHE_LAST_ERROR_KEY, $result, self::CACHE_TTL_SECONDS);
         }
 
-        return ($exitCode === self::EXEC_SUCCESS_CODE)
+        return ($isResultSuccess)
             ? redirect()
                 ->route('admin.fastdl.accounts', $fastdlServer->ds_id)
                 ->with('success', __('fastdl::fastdl.destroy_account_success_msg'))

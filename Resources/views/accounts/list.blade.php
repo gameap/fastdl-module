@@ -1,3 +1,10 @@
+@php
+/**
+ * @var \GameapModules\Fastdl\Models\FastdlServer[] $accounts
+ * @var int $dsId
+**/
+@endphp
+
 @php($title = __('fastdl::fastdl.fastdl_accounts_title'))
 
 @extends('layouts.main')
@@ -12,7 +19,7 @@
 
 @section('content')
     <div class="mb-2">
-        {{ Form::open(['method' => 'PATCH', 'url' => route('admin.fastdl.accounts.sync',  $fastdlDs->ds_id), 'style'=>'display:inline']) }}
+        {{ Form::open(['method' => 'PATCH', 'url' => route('admin.fastdl.accounts.sync',  $dsId), 'style'=>'display:inline']) }}
             {{ Form::button( '<i class="fas fa-sync"></i>&nbsp;' . __('fastdl::fastdl.sync'),
             [
                 'class' => 'btn btn-dark',
@@ -22,17 +29,17 @@
             ) }}
         {{ Form::close() }}
 
-        <a class='btn btn-success' href="{{ route('admin.fastdl.accounts.create', $fastdlDs->ds_id) }}">
+        <a class='btn btn-success' href="{{ route('admin.fastdl.accounts.create', $dsId) }}">
             <i class="fa fa-plus-square"></i>&nbsp;{{ __('main.create') }}
         </a>
 
-        <a class='btn btn-warning' href="{{ route('admin.fastdl.accounts.last_error', $fastdlDs->ds_id) }}">
+        <a class='btn btn-warning' href="{{ route('admin.fastdl.accounts.last_error', $dsId) }}">
             <i class="fas fa-exclamation-triangle"></i>&nbsp;{{ __('fastdl::fastdl.last_error') }}
         </a>
     </div>
 
     @include('components.grid', [
-        'modelsList' => $fastdlDs->accounts,
+        'modelsList' => $accounts,
         'labels' => [ __('fastdl::fastdl.server_name'), __('fastdl::fastdl.address'), __('fastdl::fastdl.last_sync')],
         'attributes' => [
             'server.name',

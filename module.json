@@ -2,6 +2,8 @@
     "name": "FastDL",
     "alias": "fastdl",
     "description": "FastDL management",
+    "version": "0.7",
+    "gameap-required": ">=3.0.0-beta4",
     "keywords": ["fastdl"],
     "active": 1,
     "order": 0,

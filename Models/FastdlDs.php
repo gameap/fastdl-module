@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $port
  * @property boolean $autoindex
  * @property string $options
+ *
+ * @property FastdlServer[] $accounts
  */
 class FastdlDs extends Model
 {

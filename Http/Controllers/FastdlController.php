@@ -92,14 +92,11 @@ class FastdlController extends AuthController
 
         if ($fastdlDs === null) {
             $fastdlDs = FastdlDs::create(array_merge(['ds_id' => $id, 'installed' => true], $attributes));
-
-            if ($attributes['autoinstall']) {
-                $gdaemonTaskId = $this->fastdlService->install($fastdlDs);
-            }
-
         } else {
             $fastdlDs->update($attributes);
         }
+
+        $this->fastdlService->install($fastdlDs);
 
         return redirect()->route('admin.fastdl')
             ->with('success', __('fastdl::fastdl.update_ds_settings_success_msg'));
