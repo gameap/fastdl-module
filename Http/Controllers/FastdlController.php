@@ -6,6 +6,7 @@ use Gameap\Models\DedicatedServer;
 use GameapModules\Fastdl\Http\Requests\FastdlDsRequest;
 use GameapModules\Fastdl\Models\FastdlDs;
 use GameapModules\Fastdl\Repository\FastdlDsRepository;
+use GameapModules\Fastdl\Services\FastdlCheckerService;
 use GameapModules\Fastdl\Services\FastdlService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -14,27 +15,30 @@ use Illuminate\View\View;
 
 class FastdlController extends AuthController
 {
-    /**
-     * @var FastdlDsRepository
-     */
+    /** @var FastdlDsRepository  */
     protected $fastdlDsRepository;
 
-    /**
-     * @var FastdlService
-     */
+    /** @var FastdlService  */
     protected $fastdlService;
+
+    /** @var FastdlCheckerService */
+    protected $fastdlCheckerService;
 
     /**
      * FastDlController constructor.
      * @param FastdlDsRepository $fastdlDsRepository
      * @param FastdlService $fastdlService
      */
-    public function __construct(FastdlDsRepository $fastdlDsRepository, FastdlService $fastdlService)
-    {
+    public function __construct(
+        FastdlDsRepository $fastdlDsRepository,
+        FastdlService $fastdlService,
+        FastdlCheckerService $fastdlCheckerService
+    ) {
         parent::__construct();
 
-        $this->fastdlDsRepository = $fastdlDsRepository;
-        $this->fastdlService = $fastdlService;
+        $this->fastdlDsRepository   = $fastdlDsRepository;
+        $this->fastdlService        = $fastdlService;
+        $this->fastdlCheckerService = $fastdlCheckerService;
     }
 
     /**
@@ -89,6 +93,13 @@ class FastdlController extends AuthController
         // Checkboxes
         $attributes['autoindex'] = isset($attributes['autoindex']);
         $attributes['autoinstall'] = isset($attributes['autoinstall']);
+
+        if ($this->fastdlCheckerService->isHostPortEqualGameap($request, $attributes['host'], $attributes['port'])) {
+            return redirect()
+                ->route('admin.fastdl.edit', $id)
+                ->withInput($attributes)
+                ->with('error', __('fastdl::fastdl.equal_gameap_port_host_fail_msg'));
+        }
 
         if ($fastdlDs === null) {
             $fastdlDs = FastdlDs::create(array_merge(['ds_id' => $id, 'installed' => true], $attributes));

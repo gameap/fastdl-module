@@ -1,13 +1,12 @@
 <?php
 
-
 namespace GameapModules\Fastdl\Http\Requests;
 
 use Gameap\Http\Requests\Request;
 
 class FastdlDsRequest extends Request
 {
-    public function rules()
+    public function rules(): array
     {
         return [
             'method' => 'required|string|max:64|in:link,mount,copy,rsync',
