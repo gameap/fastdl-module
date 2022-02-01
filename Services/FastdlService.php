@@ -10,13 +10,12 @@ use Knik\Gameap\GdaemonCommands;
 
 class FastdlService extends GdaemonCommandsService
 {
-    const FASTDL_SCRIPT_NAME = 'fastdl.sh';
-    const FASTDL_SCRIPT_DOWNLOAD_LINK = 'https://raw.githubusercontent.com/gameap/scripts/master/fastdl/fastdl.sh';
+    const FASTDL_INSTALL_COMMAND = 'get-tool https://raw.githubusercontent.com/gameap/scripts/master/fastdl/fastdl.sh';
 
-    const CREATE_ACCOUNT_CMD = './fastdl.sh add';
-    const REMOVE_ACCOUNT_CMD = './fastdl.sh remove';
-    const INSTALL_REQUIREMENTS_CMD = './fastdl.sh install';
-    const SYNC_CMD = './fastdl.sh sync';
+    const CREATE_ACCOUNT_CMD = '{node_tools_path}/fastdl.sh add';
+    const REMOVE_ACCOUNT_CMD = '{node_tools_path}/fastdl.sh remove';
+    const INSTALL_REQUIREMENTS_CMD = '{node_tools_path}/fastdl.sh install';
+    const SYNC_CMD = '{node_tools_path}/fastdl.sh sync';
 
     /** @var GdaemonCommands */
     protected $gdaemonCommands;
@@ -43,18 +42,22 @@ class FastdlService extends GdaemonCommandsService
     {
         $this->configureGdaemon($fastdlDs->ds_id);
 
-        $installRequirementsCmd = $this->addCommandOptions(self::INSTALL_REQUIREMENTS_CMD, $fastdlDs);
-
-        $executeCommand = 'curl -O ' . self::FASTDL_SCRIPT_DOWNLOAD_LINK
-            . ' && ' . 'chmod +x ' . self::FASTDL_SCRIPT_NAME
-            . ' && ' . $installRequirementsCmd;
-
-        return GdaemonTask::create([
+        $getTask = GdaemonTask::create([
             'run_aft_id' => 0,
             'dedicated_server_id' => $fastdlDs->ds_id,
             'task' => GdaemonTask::TASK_CMD_EXEC,
-            'cmd' => $executeCommand,
-        ])->id;
+            'cmd' => self::FASTDL_INSTALL_COMMAND,
+        ]);
+
+        $installRequirementsCmd = $this->addCommandOptions(self::INSTALL_REQUIREMENTS_CMD, $fastdlDs);
+        $installTask = GdaemonTask::create([
+            'run_aft_id' => 0,
+            'dedicated_server_id' => $fastdlDs->ds_id,
+            'task' => GdaemonTask::TASK_CMD_EXEC,
+            'cmd' => $installRequirementsCmd,
+        ]);
+
+        return $getTask->id;
     }
 
     public function startSync(FastdlDs $fastdlDs): int
