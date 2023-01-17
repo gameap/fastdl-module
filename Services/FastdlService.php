@@ -83,7 +83,7 @@ class FastdlService extends GdaemonCommandsService
             $cmdOptions .= " --{$optionName}=\"{$optionValue}\"";
         }
 
-        return $this->replaceShortCodes($fastdlServer->server, $command . $cmdOptions);
+        return $this->shortCodesReplace($fastdlServer->server, $command . $cmdOptions);
     }
 
     private function generateServiceCommand(string $command, FastdlDs $fastdlDs): string
@@ -115,7 +115,7 @@ class FastdlService extends GdaemonCommandsService
         return $command . $cmdOptions;
     }
 
-    protected function replaceShortCodes(Server $server, string $command, array $extraData = []): string
+    protected function shortCodesReplace(Server $server, string $command, array $extraData = []): string
     {
         foreach ($extraData as $key => $value) {
             $command = str_replace('{' . $key . '}', $value, $command);
