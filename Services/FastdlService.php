@@ -116,7 +116,7 @@ class FastdlService extends GdaemonCommandsService
         return $command . $cmdOptions;
     }
 
-    private function replaceShortCodes(Server $server, string $command, array $extraData = []): string
+    protected function replaceShortCodes(Server $server, string $command, array $extraData = []): string
     {
         foreach ($extraData as $key => $value) {
             $command = str_replace('{' . $key . '}', $value, $command);
