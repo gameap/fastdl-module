@@ -17,9 +17,6 @@ class FastdlService extends GdaemonCommandsService
     const INSTALL_REQUIREMENTS_CMD = '{node_tools_path}/fastdl.sh install';
     const SYNC_CMD = '{node_tools_path}/fastdl.sh sync';
 
-    /** @var GdaemonCommands */
-    protected $gdaemonCommands;
-
     public function addAccount(FastdlServer $fastdlServer, ?int &$exitCode = null): string
     {
         $this->configureGdaemon($fastdlServer->ds_id);
@@ -87,7 +84,7 @@ class FastdlService extends GdaemonCommandsService
             $cmdOptions .= " --{$optionName}=\"{$optionValue}\"";
         }
 
-        return $command . $cmdOptions;
+        return $this->replaceShortCodes($fastdlServer->server, $command . $cmdOptions);
     }
 
     private function generateServiceCommand(string $command, FastdlDs $fastdlDs): string
@@ -117,5 +114,32 @@ class FastdlService extends GdaemonCommandsService
         }
 
         return $command . $cmdOptions;
+    }
+
+    private function replaceShortCodes(Server $server, string $command, array $extraData = []): string
+    {
+        foreach ($extraData as $key => $value) {
+            $command = str_replace('{' . $key . '}', $value, $command);
+        }
+
+        $replaceArray = [
+            'node_work_path'    => $server->dedicatedServer->work_path,
+            'node_tools_path'   => $server->dedicatedServer->work_path . "/tools",
+            'host'              => $server->server_ip,
+            'port'              => $server->server_port,
+            'query_port'        => $server->query_port,
+            'rcon_port'         => $server->rcon_port,
+            'dir'               => $server->full_path,
+            'uuid'              => $server->uuid,
+            'uuid_short'        => $server->uuid_short,
+            'game'              => $server->game_id,
+            'user'              => $server->su_user,
+        ];
+
+        foreach ($replaceArray as $key => $value) {
+            $command = str_replace('{' . $key . '}', $value, $command);
+        }
+
+        return $command;
     }
 }
