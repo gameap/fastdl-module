@@ -3,6 +3,7 @@
 namespace GameapModules\Fastdl\Services;
 
 use Gameap\Models\GdaemonTask;
+use Gameap\Models\Server;
 use Gameap\Services\GdaemonCommandsService;
 use GameapModules\Fastdl\Models\FastdlDs;
 use GameapModules\Fastdl\Models\FastdlServer;
