@@ -6,7 +6,6 @@ use Gameap\Models\GdaemonTask;
 use Gameap\Services\GdaemonCommandsService;
 use GameapModules\Fastdl\Models\FastdlDs;
 use GameapModules\Fastdl\Models\FastdlServer;
-use Knik\Gameap\GdaemonCommands;
 
 class FastdlService extends GdaemonCommandsService
 {
